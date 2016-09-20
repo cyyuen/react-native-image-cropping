@@ -86,9 +86,18 @@ RCT_EXPORT_METHOD(cropImageWithUrlAndAspect:(NSString *)imageUrl
 
 }
 
+- (UIViewController*) getRootVC {
+    UIViewController *root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    while (root.presentedViewController != nil) {
+        root = root.presentedViewController;
+    }
+    
+    return root;
+}
+
 - (void)handleImageLoad:(UIImage *)image {
     
-    UIViewController *root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    UIViewController *root = [self getRootVC];
     TOCropViewController *cropViewController = [[TOCropViewController alloc] initWithImage:image];
     cropViewController.delegate = self;
     
